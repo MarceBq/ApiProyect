@@ -3,6 +3,7 @@ fetch("https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf2
 
 .then(response => response.json())
 //solo para quiero los 51 estados de estados unidos 
+
 .then(data => {
 
     const arrayData = data.map(data => data.state)
@@ -10,6 +11,9 @@ fetch("https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf2
         return arrayData.indexOf(element) === index;
     })
 
-     
-    // console.log(simpleArray);
+    const array = simpleArray.filter(element, index) => {
+        return 
+    }
+
+    console.log(simpleArray);
 })
