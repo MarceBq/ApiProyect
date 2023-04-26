@@ -11,9 +11,9 @@ fetch("https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf2
         return arrayData.indexOf(element) === index;
     })
 
-    const array = simpleArray.filter(element, index) => {
-        return 
-    }
+    // const array = simpleArray.filter(element, index) => {
+         
+    // }
 
     console.log(simpleArray);
 })
