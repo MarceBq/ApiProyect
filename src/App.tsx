@@ -1,37 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState, useEffect } from 'react'
+
+interface State {
+	city: string
+	growth_from_2000_to_2013: string
+	latitude: number
+	longitude: number
+	population: number
+	rank: number
+	state: string
+}
 
 function App() {
-	const [count, setCount] = useState(0)
+	const [state, setState] = useState<State[]>()
+	const [search, setSearch] = useState('')
+	const [result, setResult] = useState<State[]>()
+
+	useEffect(() => {
+		const getStates = async () => {
+			const response = await fetch(
+				'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json'
+			)
+
+			const jsonStates = await response.json()
+
+			setState(jsonStates)
+		}
+
+		getStates()
+	}, [])
+
+	useEffect(() => {
+		if (search == '') {
+			setResult([])
+			return
+		}
+
+		const filteredStates = state?.filter(
+			(item) =>
+				item.city.toLowerCase().includes(search) ||
+				item.state.toLowerCase().includes(search)
+		)
+
+		setResult(filteredStates)
+	}, [search, state])
+
+	const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
+		setSearch(event.target.value)
 
 	return (
 		<>
-			<div>
-				<a href="https://vitejs.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img
-						src={reactLogo}
-						className="logo react"
-						alt="React logo"
-					/>
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>
-					count is {count}
-				</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">
-				Click on the Vite and React logos to learn more
-			</p>
+			<input type="text" value={search} onChange={onChangeHandler} />
+			<ul>
+				{result?.map((item) => (
+					<li key={item.rank}>
+						{item.city}, {item.state}
+					</li>
+				))}
+			</ul>
 		</>
 	)
 }
