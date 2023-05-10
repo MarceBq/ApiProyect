@@ -1,20 +1,10 @@
 import './App.css'
 import { useState, useEffect } from 'react'
-
-interface State {
-	city: string
-	growth_from_2000_to_2013: string
-	latitude: number
-	longitude: number
-	population: number
-	rank: number
-	state: string
-}
+import { State } from './interfaces'
+import SearchBar from './components/searchBar'
 
 function App() {
-	const [state, setState] = useState<State[]>()
-	const [search, setSearch] = useState('')
-	const [result, setResult] = useState<State[]>()
+	const [states, setStates] = useState<State[]>([])
 
 	useEffect(() => {
 		const getStates = async () => {
@@ -24,40 +14,15 @@ function App() {
 
 			const jsonStates = await response.json()
 
-			setState(jsonStates)
+			setStates(jsonStates)
 		}
 
 		getStates()
 	}, [])
 
-	useEffect(() => {
-		if (search == '') {
-			setResult([])
-			return
-		}
-
-		const filteredStates = state?.filter(
-			(item) =>
-				item.city.toLowerCase().includes(search) ||
-				item.state.toLowerCase().includes(search)
-		)
-
-		setResult(filteredStates)
-	}, [search, state])
-
-	const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
-		setSearch(event.target.value)
-
 	return (
 		<>
-			<input type="text" value={search} onChange={onChangeHandler} />
-			<ul>
-				{result?.map((item) => (
-					<li key={item.rank}>
-						{item.city}, {item.state}
-					</li>
-				))}
-			</ul>
+			<SearchBar states={states} />
 		</>
 	)
 }
