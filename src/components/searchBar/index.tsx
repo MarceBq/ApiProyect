@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { State } from '../../interfaces'
+import { State } from 'interfaces'
 
 interface Props {
 	states: State[]

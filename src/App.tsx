@@ -1,7 +1,7 @@
 import './App.css'
 import { useState, useEffect } from 'react'
-import { State } from './interfaces'
-import SearchBar from './components/searchBar'
+import { State } from 'interfaces'
+import SearchBar from 'components/searchBar'
 
 function App() {
 	const [states, setStates] = useState<State[]>([])
